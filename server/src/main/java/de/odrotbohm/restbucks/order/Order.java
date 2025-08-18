@@ -237,6 +237,7 @@ public class Order extends AbstractAggregateRoot<Order> implements AggregateRoot
 	 * @author Oliver Gierke
 	 * @author Stéphane Nicoll
 	 */
+	@Externalized(target = "orderpaid")
 	public record OrderPaid(
 			OrderIdentifier orderIdentifier,
 			MonetaryAmount total) implements DomainEvent {}
