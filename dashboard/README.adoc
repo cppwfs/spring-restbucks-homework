@@ -1,0 +1,26 @@
+= Dashboard Microservices
+
+This is a sample microservice that captures purchase from restbucks apps and provides restful services that shows the current total.
+
+== Requirements:
+
+* Java 17 or Above
+
+== Classes:
+
+* DashboardApplication - the Spring Boot Main Application
+* Statistics Listener - the module that records the incoming purchases
+
+== Build:
+
+[source,shell]
+----
+mvn clean package
+----
+
+== Run:
+
+[source,shell]
+----
+java -jar target/dashboard-0.0.1-SNAPSHOT.jar
+----
