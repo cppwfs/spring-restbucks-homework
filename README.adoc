@@ -1,0 +1,35 @@
+= Micro Restbucks
+
+This is a sample project that demonstrates how a module can be extracted from a modulith and then create a new microservice from that module.
+
+This project is broken up into 4 branches.
+
+* *main:* contains the original project
+* *send-data-to-rabbit:* This branch adds the `@External` annotation to the `@OrderPaid` record.  Also, all dependencies required to send the messages to RabbitMQ(AMQP) are included in the pom file. When an item is paid for you will see a message in the orderpaid queue.
+* *create-dashboard-app:* In this branch the `dashboard` app has been created and the module code has been migrated to the `dashboard` microservice.  The user can now get access to the statistics data from either the restbucks app or the dashboard app.
+* *add-gateway-app:* In this branch the `restbucksgateway` will listen on port 8080 and will route all requests for the `localhost:8080/statistics` to the dashboard app.
+* *remove-dashboard-app:* In this branch we delete the `dashboard` module from the server application.
+
+== Building the server app
+
+=== Requirements:
+
+* Java 17 or Above
+
+=== Build:
+
+[source,shell]
+----
+cd server
+mvn clean package
+----
+
+=== Run the app:
+
+==== Restbucks server
+[source,shell]
+----
+java -jar target/*.jar
+----
+
+NOTE: You can read more about how it works https://github.com/odrotbohm/spring-restbucks[here].
