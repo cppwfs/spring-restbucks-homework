@@ -19,7 +19,6 @@ public class RestbucksgatewayApplication {
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder builder, UriConfiguration uriConfiguration) {
 		return builder.routes()
-
 				.route(p -> p
 						.path("/statistics")
 						.uri(uriConfiguration.getUrl())).
