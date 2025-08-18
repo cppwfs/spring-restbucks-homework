@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.odrotbohm.restbucks</groupId>
+	<artifactId>restbucks</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<name>Spring RESTBucks</name>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.0-M1</version>
+	</parent>
+
+	<properties>
+		<bytebuddy.version>1.17.6</bytebuddy.version>
+		<datasource-micrometer.version>1.1.0</datasource-micrometer.version>
+		<java.version>21</java.version>
+		<jmolecules.version>2025.0.0-RC4</jmolecules.version>
+		<spring-hateoas.version>3.0.0-SNAPSHOT</spring-hateoas.version>
+		<spring-modulith.version>2.0.0-M1</spring-modulith.version>
+		
+		<!-- Enable full annotation processing on Java 23+ -->
+		<maven.compiler.proc>full</maven.compiler.proc>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jmolecules</groupId>
+				<artifactId>jmolecules-bom</artifactId>
+				<version>${jmolecules.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.modulith</groupId>
+				<artifactId>spring-modulith-bom</artifactId>
+				<version>${spring-modulith.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<!-- jMolecules -->
+
+		<dependency>
+			<groupId>org.jmolecules.integrations</groupId>
+			<artifactId>jmolecules-starter-ddd</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmolecules.integrations</groupId>
+			<artifactId>jmolecules-jpa</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmolecules.integrations</groupId>
+			<artifactId>jmolecules-jackson</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmolecules.integrations</groupId>
+			<artifactId>jmolecules-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmolecules.integrations</groupId>
+			<artifactId>jmolecules-bytebuddy-nodep</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spring Modulith -->
+
+		<dependency>
+			<groupId>org.springframework.modulith</groupId>
+			<artifactId>spring-modulith-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.modulith</groupId>
+			<artifactId>spring-modulith-starter-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.modulith</groupId>
+			<artifactId>spring-modulith-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.modulith</groupId>
+			<artifactId>spring-modulith-junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Data REST -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-explorer</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>de.odrotbohm.playground</groupId>
+			<artifactId>spring-web-tools</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+
+		<!-- JDK 8 DateTime support for Jackson -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-parameter-names</artifactId>
+		</dependency>
+
+		<!-- Database -->
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Misc -->
+
+		<dependency>
+			<groupId>org.javamoney.moneta</groupId>
+			<artifactId>moneta-core</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+
+		<profile>
+
+			<id>default</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-devtools</artifactId>
+					<optional>true</optional>
+				</dependency>
+			</dependencies>
+
+		</profile>
+
+		<profile>
+
+			<id>actuator</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.springframework.modulith</groupId>
+					<artifactId>spring-modulith-actuator</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-actuator</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+
+		<profile>
+
+			<id>observability</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.springframework.modulith</groupId>
+					<artifactId>spring-modulith-observability</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-actuator</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>io.micrometer</groupId>
+					<artifactId>micrometer-tracing-bridge-otel</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>io.opentelemetry</groupId>
+					<artifactId>opentelemetry-exporter-zipkin</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>net.ttddyy.observation</groupId>
+					<artifactId>datasource-micrometer-spring-boot</artifactId>
+					<version>${datasource-micrometer.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-docker-compose</artifactId>
+					<scope>runtime</scope>
+					<optional>true</optional>
+				</dependency>
+
+			</dependencies>
+		</profile>
+
+		<profile>
+
+			<id>dev-services</id>
+
+			<build>
+				<defaultGoal>spring-boot:test-run</defaultGoal>
+			</build>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.postgresql</groupId>
+					<artifactId>postgresql</artifactId>
+				</dependency>
+			</dependencies>
+
+		</profile>
+
+		<!-- General AOT support -->
+
+		<profile>
+
+			<id>aot</id>
+
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+
+			<build>
+
+				<defaultGoal>verify</defaultGoal>
+
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>process-aot</id>
+								<goals>
+									<goal>process-aot</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>native</id>
+
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+
+			<build>
+
+				<defaultGoal>native:compile</defaultGoal>
+
+				<plugins>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>buildpacks</id>
+
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+
+			<build>
+
+				<defaultGoal>spring-boot:build-image</defaultGoal>
+
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<image>
+								<env>
+									<BPL_JVM_CDS_ENABLED>true</BPL_JVM_CDS_ENABLED>
+									<BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
+									<BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
+									<BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+								</env>
+							</image>
+						</configuration>
+						<executions>
+							<execution>
+								<id>process-aot</id>
+								<goals>
+									<goal>process-aot</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>buildpacks-native</id>
+
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+
+			<build>
+
+				<defaultGoal>spring-boot:build-image</defaultGoal>
+
+				<plugins>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>add-reachability-metadata</id>
+								<goals>
+									<goal>add-reachability-metadata</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<image>
+								<env>
+									<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+								</env>
+							</image>
+						</configuration>
+						<executions>
+							<execution>
+								<id>process-aot</id>
+								<goals>
+									<goal>process-aot</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+
+			</build>
+
+		</profile>
+
+	</profiles>
+
+	<build>
+
+		<defaultGoal>verify</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy-maven-plugin</artifactId>
+				<version>${bytebuddy.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>transform-extended</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<classPathDiscovery>true</classPathDiscovery>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-milestone</id>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-snapshot</id>
+			<url>https://repo.spring.io/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>sonatype-snapshots</id>
+			<name>Sonatype Snapshots</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-milestone</id>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-snapshot</id>
+			<url>https://repo.spring.io/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>
