@@ -1,0 +1,27 @@
+= Micro Restbucks
+
+This branch adds the `@External` annotation to the `@OrderPaid` record.  Also, all dependencies required to send the messages to RabbitMQ(AMQP) are included in the pom file. When an item is paid for you will see a message in the orderpaid queue.
+
+== Building the server app
+
+=== Requirements:
+
+* Java 17 or Above
+
+=== Build:
+
+[source,shell]
+----
+cd server
+mvn clean package
+----
+
+=== Run the app:
+
+==== Restbucks server
+[source,shell]
+----
+java -jar target/*.jar
+----
+
+NOTE: You will need to create a `orderpaid` exchange in RabbitMQ and a `orderpaid` queue and bind them together.
