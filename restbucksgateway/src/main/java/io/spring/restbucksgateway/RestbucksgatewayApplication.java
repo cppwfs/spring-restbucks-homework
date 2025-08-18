@@ -17,7 +17,7 @@ public class RestbucksgatewayApplication {
 
 
 	@Bean
-	public RouteLocator myRoutes(RouteLocatorBuilder builder, UriConfiguration uriConfiguration) {
+	public RouteLocator routes(RouteLocatorBuilder builder, UriConfiguration uriConfiguration) {
 		return builder.routes()
 
 				.route(p -> p
