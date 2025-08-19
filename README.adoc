@@ -1,6 +1,8 @@
 = Spring Restbucks Homework
 
 A multi-component project demonstrating a microservices architecture for a coffee shop ordering system, built with Spring Boot and related technologies.
+In this branch we changed the default port for the `server` to `http://localhost:8090`, but started a spring-cloud-gateway to route the request to the dashboard application. So a `get` to `http://localhost:8080/statistics` will return the correct value.
+However, hitting the `http://localhost:8090/statistics` will also return the correct value.
 
 == Overview
 
@@ -112,14 +114,14 @@ java -jar dashboard/target/dashboard-*.jar
 [source,shell]
 ----
 cd restbucksgateway
-./mvnw spring-boot:run
+./mvnw spring-boot:run  --url=http://localhost:9494
 ----
 
 Or run the JAR directly:
 
 [source,shell]
 ----
-java -jar restbucksgateway/target/restbucksgateway-*.jar
+java -jar restbucksgateway/target/restbucksgateway-*.jar --url=http://localhost:9494
 ----
 
 == Testing
