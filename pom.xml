@@ -15,6 +15,7 @@
 	<modules>
 		<module>server</module>
 		<module>dashboard</module>
+		<module>restbucksgateway</module>
 	</modules>
 
 	<properties>
