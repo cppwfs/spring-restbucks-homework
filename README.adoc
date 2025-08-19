@@ -8,12 +8,15 @@ This project implements a distributed coffee shop system with the following comp
 
 * **Server** - Main Spring Boot application providing the core ordering system
 * **Dashboard** - Microservice for capturing purchase events and displaying revenue statistics
+* **Restbucks Gateway** - API Gateway service providing routing and resilience patterns for microservices communication
 
 == Architecture
 
 The system uses:
 
-* Spring Boot 3.2.0 with Java 17
+* Spring Boot 3.2.0+ with Java 17
+* Spring Cloud Gateway for API routing and load balancing
+* Resilience4J for circuit breaker patterns and fault tolerance
 * RabbitMQ for messaging between services
 * RESTful APIs for service communication
 * JavaMoney (Moneta) for currency handling
@@ -30,6 +33,7 @@ The system uses:
 ----
 ├── server/                    # Main Spring Boot ordering application
 ├── dashboard/                 # Revenue statistics microservice
+├── restbucksgateway/          # API Gateway service for routing and resilience
 ├── pom.xml                   # Maven parent POM for Java modules
 └── README.adoc               # This file
 ----
@@ -60,6 +64,14 @@ cd server
 [source,shell]
 ----
 cd dashboard
+./mvnw clean package
+----
+
+==== Restbucks Gateway Module
+
+[source,shell]
+----
+cd restbucksgateway
 ./mvnw clean package
 ----
 
@@ -95,6 +107,21 @@ Or run the JAR directly:
 java -jar dashboard/target/dashboard-*.jar
 ----
 
+==== Start the Restbucks Gateway
+
+[source,shell]
+----
+cd restbucksgateway
+./mvnw spring-boot:run
+----
+
+Or run the JAR directly:
+
+[source,shell]
+----
+java -jar restbucksgateway/target/restbucksgateway-*.jar
+----
+
 == Testing
 
 === Run All Tests
@@ -110,6 +137,7 @@ mvn test
 ----
 mvn test -pl server
 mvn test -pl dashboard
+mvn test -pl restbucksgateway
 ----
 
 == Module Documentation
@@ -117,6 +145,6 @@ mvn test -pl dashboard
 For detailed information about each component:
 
 * link:dashboard/README.adoc[Dashboard Module Documentation]
+* link:restbucksgateway/HELP.md[Restbucks Gateway Module Documentation]
 
 Additional documentation for other modules may be added as they are developed.
-
