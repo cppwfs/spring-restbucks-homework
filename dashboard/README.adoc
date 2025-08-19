@@ -1,26 +1,144 @@
-= Dashboard Microservices
+= Dashboard Microservice
 
-This is a sample microservice that captures purchase from restbucks apps and provides restful services that shows the current total.
+A Spring Boot microservice that captures purchase events from Restbucks applications via RabbitMQ messaging and provides RESTful services to display current revenue statistics.
 
-== Requirements:
+== Overview
 
-* Java 17 or Above
+This dashboard service:
 
-== Classes:
+* Listens to `orderpaid` RabbitMQ queue for purchase events
+* Accumulates revenue from incoming orders
+* Provides a REST API endpoint to retrieve current statistics
+* Uses JavaMoney (Moneta) for precise currency handling
+* Formats monetary amounts in EUR currency with US locale formatting
 
-* DashboardApplication - the Spring Boot Main Application
-* Statistics Listener - the module that records the incoming purchases
+== Prerequisites
 
-== Build:
+* Java 17 or higher
+* Maven 3.6+ (or use the included Maven wrapper)
+* RabbitMQ server running (for message processing)
+
+== Project Structure
+
+----
+src/
+├── main/java/io/spring/dashboard/
+│   ├── DashboardApplication.java          # Main Spring Boot application
+│   ├── core/
+│   │   └── Currencies.java                # Currency definitions
+│   ├── order/
+│   │   └── OrderPaid.java                 # Order event model
+│   └── statistics/
+│       ├── Dashboard.java                 # REST controller & message listener
+│       └── DashboardConfiguration.java    # RabbitMQ configuration
+└── test/java/io/spring/dashboard/
+    ├── OrderlistenerApplicationTests.java
+    └── statistics/
+        └── DashboardTest.java             # Unit tests for Dashboard
+----
+
+== Build
+
+=== Using Maven Wrapper (Recommended)
+
+[source,shell]
+----
+./mvnw clean package
+----
+
+=== Using System Maven
 
 [source,shell]
 ----
 mvn clean package
 ----
 
-== Run:
+== Run
+
+=== Start the Application
 
 [source,shell]
 ----
 java -jar target/dashboard-0.0.1-SNAPSHOT.jar
 ----
+
+=== Using Maven Wrapper
+
+[source,shell]
+----
+./mvnw spring-boot:run
+----
+
+=== Using System Maven
+
+[source,shell]
+----
+mvn spring-boot:run
+----
+
+== API Endpoints
+
+=== GET /statistics
+
+Returns current revenue statistics.
+
+**Response:**
+[source,json]
+----
+{
+  "revenue": "EUR 1,234.56"
+}
+----
+
+**Example:**
+[source,shell]
+----
+curl http://localhost:8080/statistics
+----
+
+== Message Processing
+
+The service listens to the `orderpaid` RabbitMQ queue and expects messages in the following format:
+
+[source,json]
+----
+{
+  "orderId": "order-123",
+  "total": "EUR25.50"
+}
+----
+
+== Testing
+
+=== Run Unit Tests
+
+[source,shell]
+----
+./mvnw test
+----
+
+=== Run Specific Test Class
+
+[source,shell]
+----
+./mvnw test -Dtest=DashboardTest
+----
+
+== Configuration
+
+The application uses standard Spring Boot configuration. Default settings:
+
+* Server port: 8080
+* RabbitMQ connection: localhost:5672 (default)
+
+Override settings in `application.properties` or via environment variables as needed.
+
+== Dependencies
+
+Key dependencies include:
+
+* Spring Boot 3.5.4
+* Spring AMQP (RabbitMQ integration)
+* Spring Web (REST endpoints)
+* JavaMoney Moneta (currency handling)
+* Jackson (JSON processing)
