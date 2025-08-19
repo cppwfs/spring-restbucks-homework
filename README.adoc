@@ -1,7 +1,8 @@
 = Spring Restbucks Homework
 
 A multi-component project demonstrating a microservices architecture for a coffee shop ordering system, built with Spring Boot and related technologies.
-
+In this branch we remove the module from `server`. So a get to `http://localhost:8080/statistics` will return the correct value.
+However, hitting the `http://localhost:8090/statistics` will not return a 404 error.
 == Overview
 
 This project implements a distributed coffee shop system with the following components:
