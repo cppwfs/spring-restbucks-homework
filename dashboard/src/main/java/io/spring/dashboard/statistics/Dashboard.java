@@ -24,6 +24,10 @@ public class Dashboard {
 	Map<String, Object> statistics() {
 		MonetaryAmountFormat formatter = MonetaryFormats.getAmountFormat(Locale.US);
 		String formattedAmount = formatter.format(revenue);
+		// Ensure there's a space between currency code and amount
+		if (formattedAmount.startsWith("EUR") && !formattedAmount.startsWith("EUR ")) {
+			formattedAmount = formattedAmount.replace("EUR", "EUR ");
+		}
 		return Map.of("revenue", formattedAmount);
 	}
 
