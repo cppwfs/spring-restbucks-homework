@@ -19,24 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class Dashboard {
 
 	private MonetaryAmount revenue = Money.zero(Currencies.EURO);
+	private final StatisticsConverter statisticsConverter;
+	private final MonetaryAmountFormat compactFormat = MonetaryFormats.getAmountFormat(Locale.ROOT);
+
+	public Dashboard(StatisticsConverter statisticsConverter) {
+		this.statisticsConverter = statisticsConverter;
+	}
 
 	@GetMapping("/statistics")
 	Map<String, Object> statistics() {
-		MonetaryAmountFormat formatter = MonetaryFormats.getAmountFormat(Locale.US);
-		String formattedAmount = formatter.format(revenue);
-		// Ensure there's a space between currency code and amount
-		if (formattedAmount.startsWith("EUR") && !formattedAmount.startsWith("EUR ")) {
-			formattedAmount = formattedAmount.replace("EUR", "EUR ");
-		}
-		return Map.of("revenue", formattedAmount);
+		String formattedAmount = statisticsConverter.formatAmount(revenue);
+		return Map.of("Dashboard", formattedAmount);
 	}
 
 	@RabbitListener(queues = "orderpaid", messageConverter = "jsonMessageConverter")
 	public void on(OrderPaid event) {
-		this.revenue = revenue.add(convertToRevenue(event));
-	}
-
-	private MonetaryAmount convertToRevenue(OrderPaid event) {
-		return Money.of(Double.valueOf(event.total().substring(3)), Currencies.EURO);
+		this.revenue = revenue.add(Money.parse(event.total(), compactFormat));
 	}
 }
