@@ -45,13 +45,13 @@ class DashboardUnitTests {
 
 		dashboard.on(event);
 
-		assertThat(dashboard.statistics()).hasEntrySatisfying("revenue", it -> {
+		assertThat(dashboard.statistics()).hasEntrySatisfying("restbucks-server", it -> {
 			assertThat(it).isEqualTo(amount);
 		});
 
 		dashboard.on(event);
 
-		assertThat(dashboard.statistics()).hasEntrySatisfying("revenue", it -> {
+		assertThat(dashboard.statistics()).hasEntrySatisfying("restbucks-server", it -> {
 			assertThat(it).isEqualTo(amount.multiply(2));
 		});
 	}

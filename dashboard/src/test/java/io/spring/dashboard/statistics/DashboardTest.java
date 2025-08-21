@@ -11,10 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class DashboardTest {
 
     private Dashboard dashboard;
+    private StatisticsConverter statisticsConverter;
 
     @BeforeEach
     void setUp() {
-        dashboard = new Dashboard();
+        statisticsConverter = new StatisticsConverter();
+        dashboard = new Dashboard(statisticsConverter);
     }
 
     @Test
@@ -24,8 +26,8 @@ class DashboardTest {
 
         // Then
         assertNotNull(statistics);
-        assertTrue(statistics.containsKey("revenue"));
-        assertEquals("EUR 0.00", statistics.get("revenue"));
+        assertTrue(statistics.containsKey("Dashboard"));
+        assertEquals("EUR 0.00", statistics.get("Dashboard"));
     }
 
     @Test
@@ -38,7 +40,7 @@ class DashboardTest {
 
         // Then
         Map<String, Object> statistics = dashboard.statistics();
-        assertEquals("EUR 25.50", statistics.get("revenue"));
+        assertEquals("EUR 25.50", statistics.get("Dashboard"));
     }
 
     @Test
@@ -53,7 +55,7 @@ class DashboardTest {
 
         // Then
         Map<String, Object> statistics = dashboard.statistics();
-        assertEquals("EUR 48.00", statistics.get("revenue"));
+        assertEquals("EUR 48.00", statistics.get("Dashboard"));
     }
 
     @Test
@@ -66,7 +68,7 @@ class DashboardTest {
 
         // Then
         Map<String, Object> statistics = dashboard.statistics();
-        assertEquals("EUR 123.99", statistics.get("revenue"));
+        assertEquals("EUR 123.99", statistics.get("Dashboard"));
     }
 
     @Test
@@ -79,7 +81,7 @@ class DashboardTest {
 
         // Then
         Map<String, Object> statistics = dashboard.statistics();
-        assertEquals("EUR 0.00", statistics.get("revenue"));
+        assertEquals("EUR 0.00", statistics.get("Dashboard"));
     }
 
     @Test
@@ -92,7 +94,7 @@ class DashboardTest {
         Map<String, Object> statistics = dashboard.statistics();
 
         // Then
-        assertEquals("EUR 1,234.56", statistics.get("revenue"));
+        assertEquals("EUR 1,234.56", statistics.get("Dashboard"));
     }
 
     @Test
@@ -103,7 +105,7 @@ class DashboardTest {
         // Then
         assertNotNull(statistics);
         assertEquals(1, statistics.size());
-        assertTrue(statistics.containsKey("revenue"));
+        assertTrue(statistics.containsKey("Dashboard"));
     }
 
     @Test
@@ -118,6 +120,6 @@ class DashboardTest {
 
         // Then
         Map<String, Object> statistics = dashboard.statistics();
-        assertEquals("EUR 30.00", statistics.get("revenue"));
+        assertEquals("EUR 30.00", statistics.get("Dashboard"));
     }
 }
