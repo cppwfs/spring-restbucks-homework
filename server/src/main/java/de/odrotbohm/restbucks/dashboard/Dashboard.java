@@ -50,7 +50,7 @@ class Dashboard implements RepresentationModelProcessor<RepositoryLinksResource>
 
 	@GetMapping("/statistics")
 	Map<String, Object> statistics() {
-		return Map.of("revenue", revenue);
+		return Map.of("restbucks-server", revenue);
 	}
 
 	@ApplicationModuleListener
